@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Cuenta SIAE</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="container">
+  <h1>Registro Diario - Cuenta SIAE</h1>
+  <div id="loader">Cargando funcionarios...</div>
+  <div id="formulario"></div>
+  
+  <div class="button-group">
+    <button onclick="generarCuenta()">Generar Cuenta</button>
+    <button onclick="copiarResultado()">Copiar Resultado</button>
+    <button onclick="limpiarFormulario()">Limpiar</button>
+  </div>
+  <div id="copy-confirm" class="hidden">¡Copiado!</div>
+  <h2>Resultado</h2>
+  <textarea id="resultado" rows="20" readonly placeholder="El resultado aparecerá aquí..."></textarea>
+  <script src="script.js"></script>
+  </div>
+</body>
+</html>
