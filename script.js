@@ -49,8 +49,10 @@ const listaMotivos = [
           ${listaMotivos.map(m => `<option>${m}</option>`).join('')}
         </select>
       `;
-      container.appendChild(div);
+            container.appendChild(div);
     });
+    // Cargar el estado guardado después de crear el formulario
+    cargarEstadoGuardado();
   }
   
   function toggleMotivo(id) {
@@ -60,7 +62,8 @@ const listaMotivos = [
 
     motivo.style.display = estado === "falta" ? "inline-block" : "none";
     // Aquí se añade la lógica para cambiar el color del borde
-    estadoSelect.className = estado === "formando" ? "estado-formando" : "estado-falta";
+        estadoSelect.className = estado === "formando" ? "estado-formando" : "estado-falta";
+    guardarEstado();
   }
   
   function generarCuenta() {
@@ -135,5 +138,43 @@ const listaMotivos = [
     });
 
     // Limpiar el área de resultado
-    document.getElementById('resultado').value = '';
+            document.getElementById('resultado').value = '';
+    localStorage.removeItem('cuentaSIAEState');
+  }
+
+  function guardarEstado() {
+    const estadoActual = {};
+    funcionarios.forEach(f => {
+      const estadoSelect = document.getElementById(`estado-${f.id}`);
+      const motivoSelect = document.getElementById(`motivo-${f.id}`);
+      if (estadoSelect) {
+        estadoActual[f.id] = {
+          estado: estadoSelect.value,
+          motivo: motivoSelect.value
+        };
+      }
+    });
+    localStorage.setItem('cuentaSIAEState', JSON.stringify(estadoActual));
+  }
+
+  function cargarEstadoGuardado() {
+    const estadoGuardado = JSON.parse(localStorage.getItem('cuentaSIAEState'));
+    if (estadoGuardado) {
+      funcionarios.forEach(f => {
+        if (estadoGuardado[f.id]) {
+          const estadoSelect = document.getElementById(`estado-${f.id}`);
+          const motivoSelect = document.getElementById(`motivo-${f.id}`);
+          
+          if(estadoSelect) {
+            estadoSelect.value = estadoGuardado[f.id].estado;
+          }
+          if(motivoSelect) {
+            motivoSelect.value = estadoGuardado[f.id].motivo;
+          }
+          
+          // Actualizar la UI para que coincida con el estado cargado
+          toggleMotivo(f.id);
+        }
+      });
+    }
   }
