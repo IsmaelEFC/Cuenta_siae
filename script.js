@@ -54,9 +54,13 @@ const listaMotivos = [
   }
   
   function toggleMotivo(id) {
-    const estado = document.getElementById(`estado-${id}`).value;
+    const estadoSelect = document.getElementById(`estado-${id}`);
+    const estado = estadoSelect.value;
     const motivo = document.getElementById(`motivo-${id}`);
+
     motivo.style.display = estado === "falta" ? "inline-block" : "none";
+    // Aquí se añade la lógica para cambiar el color del borde
+    estadoSelect.className = estado === "formando" ? "estado-formando" : "estado-falta";
   }
   
   function generarCuenta() {
@@ -81,19 +85,20 @@ const listaMotivos = [
   
     const total = funcionarios.length;
     const texto = [];
-    texto.push(`Cuenta S.I.A.E. ${fecha}`);
-    texto.push(`\nDotación: ${total}.`);
-    texto.push(`Forman: ${forman.length}.`);
-    texto.push(`Faltan: ${total - forman.length}.\n\nMotivos:`);
+    texto.push(`*Cuenta S.I.A.E. ${fecha}*`);
+    texto.push(`\n*Dotación:* ${total}.`);
+    texto.push(`*Forman:* ${forman.length}.`);
+    texto.push(`*Faltan:* ${total - forman.length}.\n`);
+    texto.push(`*Motivos:*`);
   
     Object.entries(motivos).forEach(([motivo, nombres]) => {
       if (nombres.length > 0) {
-        texto.push(`\n${motivo}:`);
+        texto.push(`\n*${motivo}:*`);
         nombres.forEach((n, i) => texto.push(`${i + 1}. ${n}`));
       }
     });
   
-    texto.push(`\nPersonal que forma:`);
+    texto.push(`\n*Personal que forma:*`);
     forman.forEach((n, i) => texto.push(`${i + 1}. ${n}`));
   
     document.getElementById("resultado").value = texto.join('\n');
@@ -116,7 +121,11 @@ const listaMotivos = [
     // Reiniciar todos los selects de estado a 'formando'
     funcionarios.forEach(f => {
       const estadoSelect = document.getElementById(`estado-${f.id}`);
-      if (estadoSelect) estadoSelect.value = 'formando';
+      if (estadoSelect) {
+        estadoSelect.value = 'formando';
+        // Y aquí para resetear el color del borde al limpiar
+        estadoSelect.className = 'estado-formando';
+      }
       
       const motivoSelect = document.getElementById(`motivo-${f.id}`);
       if (motivoSelect) {
