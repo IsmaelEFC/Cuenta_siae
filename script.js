@@ -1,10 +1,16 @@
 const listaMotivos = [
-    "Licencia Médica",
-    "Allanamiento",
     "Feriado",
+    "Permiso Especial",
     "Día administrativo",
-    "Práctica de tiro",
+    "Licencia Médica",
+    "Primer patrullaje",
+    "Segundo patrullaje",
+    "Primera guardia",
+    "Segunda guardia",
+    "Saliente servicio nocturno",
+    "Allanamiento",
     "Vigilancia",
+    "Práctica de tiro",
     "Monitoreo",
     "Capacitación"
   ];
