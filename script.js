@@ -182,5 +182,9 @@ const listaMotivos = [
           toggleMotivo(f.id);
         }
       });
+        if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("/sw.js");
+}
+
     }
   }
