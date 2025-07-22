@@ -1,21 +1,22 @@
 // Configuración del Service Worker
-const CACHE_NAME = 'cuenta-siae-v1.0.0';
+const CACHE_NAME = 'cuenta-siae-v1.0.1';
 const ASSETS_TO_CACHE = [
-  '/',
-  '/index.html',
-  '/css/styles.css',
-  '/js/app.js',
-  '/js/storage.js',
-  '/js/pwa.js',
-  '/funcionarios.json',
-  '/assets/icons/icon-72x72.png',
-  '/assets/icons/icon-96x96.png',
-  '/assets/icons/icon-128x128.png',
-  '/assets/icons/icon-144x144.png',
-  '/assets/icons/icon-152x152.png',
-  '/assets/icons/icon-192x192.png',
-  '/assets/icons/icon-384x384.png',
-  '/assets/icons/icon-512x512.png',
+  './',
+  './index.html',
+  './css/styles.css',
+  './js/app.js',
+  './js/storage.js',
+  './js/pwa.js',
+  './funcionarios.json',
+  './manifest.json',
+  './assets/icons/icon-72x72.png',
+  './assets/icons/icon-96x96.png',
+  './assets/icons/icon-128x128.png',
+  './assets/icons/icon-144x144.png',
+  './assets/icons/icon-152x152.png',
+  './assets/icons/icon-192x192.png',
+  './assets/icons/icon-384x384.png',
+  './assets/icons/icon-512x512.png',
   'https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap'
 ];
 

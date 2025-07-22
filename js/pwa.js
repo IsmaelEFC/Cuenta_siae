@@ -5,7 +5,7 @@
 // Verificar si el navegador soporta service workers
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
+        navigator.serviceWorker.register('../sw.js')
             .then(registration => {
                 console.log('ServiceWorker registrado con éxito:', registration.scope);
                 // Verificar si hay una nueva versión disponible
