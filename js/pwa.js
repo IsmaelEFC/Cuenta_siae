@@ -5,7 +5,9 @@
 // Verificar si el navegador soporta service workers
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-        navigator.serviceWorker.register('../sw.js')
+        // Usar ruta relativa a la raíz del sitio para GitHub Pages
+        const basePath = window.location.pathname.split('/').slice(0, -1).join('/');
+        navigator.serviceWorker.register(`${basePath ? basePath + '/' : ''}sw.js`)
             .then(registration => {
                 console.log('ServiceWorker registrado con éxito:', registration.scope);
                 // Verificar si hay una nueva versión disponible
