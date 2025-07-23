@@ -3,11 +3,14 @@ import { guardarEstado, cargarEstadoGuardado, limpiarEstado } from './storage.js
 
 // Constantes
 const LISTA_MOTIVOS = [
-    "Feriado", "Permiso Especial", "Día administrativo", "Licencia Médica", 
+    "Feriado", "Día administrativo", "Licencia Médica", 
     "Primer patrullaje", "Segundo patrullaje", "Primera guardia", "Segunda guardia", 
-    "Saliente servicio nocturno", "Allanamiento", "Vigilancia", "Práctica de tiro", 
-    "Monitoreo", "Capacitación"
+    "Saliente servicio nocturno", "Permiso Especial Digcar", "Allanamiento", "Vigilancia", "Práctica de tiro", 
+    "Monitoreo", "Capacitación", "Otro"
 ];
+
+// Cargar motivos personalizados del localStorage
+let motivosPersonalizados = JSON.parse(localStorage.getItem('motivosPersonalizados')) || [];
 
 // Variables globales
 let funcionarios = [];
@@ -65,6 +68,9 @@ function cargarFormulario() {
     
     container.innerHTML = ''; // Limpiar contenedor
     
+    // Combinar motivos predefinidos con personalizados
+    const todosLosMotivos = [...new Set([...LISTA_MOTIVOS, ...motivosPersonalizados])];
+    
     funcionarios.forEach(f => {
         const div = document.createElement("div");
         div.className = "funcionario";
@@ -76,10 +82,33 @@ function cargarFormulario() {
             </select>
             <select id="motivo-${f.id}" class="motivo-select" style="display:none;" data-funcionario-id="${f.id}">
                 <option value="">-- Motivo --</option>
-                ${LISTA_MOTIVOS.map(m => `<option>${m}</option>`).join('')}
+                ${todosLosMotivos.map(m => `<option>${m}</option>`).join('')}
             </select>
+            <div id="motivo-otro-container-${f.id}" class="motivo-otro-container" style="display: none; margin-top: 5px;">
+                <input type="text" id="motivo-otro-${f.id}" class="motivo-otro-input" placeholder="Especificar motivo...">
+                <button class="btn-guardar-motivo" data-funcionario-id="${f.id}">Guardar</button>
+            </div>
         `;
         container.appendChild(div);
+    });
+    
+    // Agregar manejador de eventos para el botón de guardar motivo personalizado
+    document.querySelectorAll('.btn-guardar-motivo').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const funcionarioId = e.target.dataset.funcionarioId;
+            guardarMotivoPersonalizado(funcionarioId);
+        });
+    });
+    
+    // Agregar manejador de eventos para el cambio en el select de motivos
+    document.querySelectorAll('.motivo-select').forEach(select => {
+        select.addEventListener('change', (e) => {
+            const funcionarioId = e.target.dataset.funcionarioId;
+            const motivoOtroContainer = document.getElementById(`motivo-otro-container-${funcionarioId}`);
+            if (motivoOtroContainer) {
+                motivoOtroContainer.style.display = (e.target.value === 'Otro') ? 'block' : 'none';
+            }
+        });
     });
 }
 
@@ -111,11 +140,19 @@ function configurarEventos() {
 function toggleMotivo(funcionarioId) {
     const estadoSelect = document.getElementById(`estado-${funcionarioId}`);
     const motivoSelect = document.getElementById(`motivo-${funcionarioId}`);
+    const motivoOtroContainer = document.getElementById(`motivo-otro-container-${funcionarioId}`);
 
     if (estadoSelect && motivoSelect) {
         const estado = estadoSelect.value;
-        motivoSelect.style.display = estado === "falta" ? "inline-block" : "none";
+        const mostrarMotivo = estado === "falta";
+        
+        motivoSelect.style.display = mostrarMotivo ? "inline-block" : "none";
         estadoSelect.className = estado === "formando" ? "estado-formando" : "estado-falta";
+        
+        // Mostrar/ocultar contenedor de motivo personalizado
+        if (motivoOtroContainer) {
+            motivoOtroContainer.style.display = (mostrarMotivo && motivoSelect.value === 'Otro') ? 'block' : 'none';
+        }
     }
 }
 
@@ -123,6 +160,57 @@ function toggleMotivo(funcionarioId) {
  * Genera el texto de la cuenta SIAE
  * @returns {string} El texto generado de la cuenta
  */
+function guardarMotivoPersonalizado(funcionarioId) {
+    const motivoInput = document.getElementById(`motivo-otro-${funcionarioId}`);
+    const motivoSelect = document.getElementById(`motivo-${funcionarioId}`);
+    
+    if (motivoInput && motivoInput.value.trim() !== '') {
+        const nuevoMotivo = motivoInput.value.trim();
+        
+        // Agregar a la lista de motivos personalizados si no existe
+        if (!motivosPersonalizados.includes(nuevoMotivo)) {
+            motivosPersonalizados.push(nuevoMotivo);
+            // Guardar en localStorage
+            localStorage.setItem('motivosPersonalizados', JSON.stringify(motivosPersonalizados));
+            
+            // Actualizar el select con el nuevo motivo
+            if (motivoSelect) {
+                // Verificar si ya existe la opción
+                const opcionExistente = Array.from(motivoSelect.options).find(opt => opt.text === nuevoMotivo);
+                if (!opcionExistente) {
+                    const option = document.createElement('option');
+                    option.value = nuevoMotivo;
+                    option.textContent = nuevoMotivo;
+                    // Insertar antes de la opción "Otro"
+                    const otroOption = Array.from(motivoSelect.options).find(opt => opt.text === 'Otro');
+                    if (otroOption) {
+                        motivoSelect.insertBefore(option, otroOption);
+                    } else {
+                        motivoSelect.appendChild(option);
+                    }
+                }
+                // Seleccionar el motivo recién agregado
+                motivoSelect.value = nuevoMotivo;
+            }
+            
+            // Limpiar el input
+            motivoInput.value = '';
+            
+            // Ocultar el contenedor de motivo personalizado
+            const motivoOtroContainer = document.getElementById(`motivo-otro-container-${funcionarioId}`);
+            if (motivoOtroContainer) {
+                motivoOtroContainer.style.display = 'none';
+            }
+            
+            mostrarNotificacion('Motivo guardado correctamente');
+        } else {
+            mostrarNotificacion('Este motivo ya existe', 'info');
+        }
+    } else {
+        mostrarNotificacion('Por favor ingrese un motivo', 'error');
+    }
+}
+
 function generarCuenta() {
     const fecha = new Date().toLocaleDateString('es-CL', {
         weekday: 'long', 
@@ -131,7 +219,10 @@ function generarCuenta() {
         year: 'numeric'
     });
 
-    const motivos = LISTA_MOTIVOS.reduce((acc, m) => {
+    // Combinar motivos predefinidos con personalizados
+    const todosLosMotivos = [...new Set([...LISTA_MOTIVOS, ...motivosPersonalizados])];
+    
+    const motivos = todosLosMotivos.reduce((acc, m) => {
         acc[m] = [];
         return acc;
     }, {});
@@ -141,14 +232,29 @@ function generarCuenta() {
     funcionarios.forEach(f => {
         const estadoSelect = document.getElementById(`estado-${f.id}`);
         const motivoSelect = document.getElementById(`motivo-${f.id}`);
+        const motivoOtroInput = document.getElementById(`motivo-otro-${f.id}`);
 
         if (estadoSelect && motivoSelect) {
             const estado = estadoSelect.value;
-            const motivo = motivoSelect.value;
+            let motivo = motivoSelect.value;
+            
+            // Si es "Otro" y hay texto en el input, usar ese texto
+            if (motivo === 'Otro' && motivoOtroInput && motivoOtroInput.value.trim() !== '') {
+                motivo = motivoOtroInput.value.trim();
+                // Si el motivo no existe, agregarlo
+                if (!motivosPersonalizados.includes(motivo)) {
+                    motivosPersonalizados.push(motivo);
+                    localStorage.setItem('motivosPersonalizados', JSON.stringify(motivosPersonalizados));
+                }
+            }
 
             if (estado === "formando") {
                 forman.push(f.nombre);
             } else if (estado === "falta" && motivo) {
+                // Si el motivo no está en la lista, agregarlo al objeto de motivos
+                if (!motivos[motivo]) {
+                    motivos[motivo] = [];
+                }
                 motivos[motivo].push(f.nombre);
             }
         }
