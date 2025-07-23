@@ -15,11 +15,19 @@ if ('serviceWorker' in navigator) {
                     const newWorker = registration.installing;
                     newWorker.addEventListener('statechange', () => {
                         if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                            // Nueva versión disponible
-                            console.log('Nueva versión disponible. Por favor, actualiza la página.');
+                            // Nueva versión disponible - forzar recarga
+                            console.log('Nueva versión detectada. Recargando para aplicar cambios...');
+                            window.location.reload();
                         }
                     });
                 });
+                
+                // Forzar verificación de actualizaciones cada hora
+                setInterval(() => {
+                    registration.update().catch(error => {
+                        console.log('Error al verificar actualizaciones:', error);
+                    });
+                }, 60 * 60 * 1000); // Cada hora
             })
             .catch(error => {
                 console.error('Error al registrar el ServiceWorker:', error);

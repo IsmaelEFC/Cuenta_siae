@@ -1,5 +1,5 @@
 // Configuración del Service Worker
-const CACHE_NAME = 'cuenta-siae-v1.0.1';
+const CACHE_NAME = 'cuenta-siae-v1.0.2';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
