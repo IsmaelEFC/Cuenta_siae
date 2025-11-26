@@ -14,12 +14,13 @@
   { "nombre": "Sgto. 2° Quezada", "id": 12 },
   { "nombre": "Cabo 1° Pino", "id": 13 },
   { "nombre": "Cabo 1° Díaz", "id": 14 },
-  { "nombre": "Cabo 1° Sanhueza", "id": 15 },
-  { "nombre": "Cabo 1° Rodríguez", "id": 16 },
-  { "nombre": "Cabo 1° Riquelme", "id": 17 },
+  { "nombre": "Cabo 1° Riquelme", "id": 15 },
+  { "nombre": "Cabo 1° Sanhueza", "id": 16 },
+  { "nombre": "Cabo 1° Rodriguez", "id": 17 },
   { "nombre": "Cabo 1° Peña", "id": 18 },
-  { "nombre": "Cabo 2° Celis", "id": 19 },
+  { "nombre": "Cabo 2° Oñate", "id": 19 },
   { "nombre": "Cabo 2° Marín", "id": 20 },
-  { "nombre": "Cabo 1° Baeza", "id": 21 }
+  { "nombre": "Cabo 2° Celis", "id": 21 },
 ]
+
 
