@@ -20,11 +20,6 @@ Cuenta SIAE/
 ├── assets/               # Recursos estáticos
 │   └── icons/            # Íconos para diferentes tamaños de pantalla
 │       ├── favicon.ico   # Ícono del sitio
-│       ├── icon-48x48.png
-│       ├── icon-72x72.png
-│       ├── icon-96x96.png
-│       ├── icon-120x120.png
-│       ├── icon-144x144.png
 │       ├── icon-192x192.png
 │       └── icon-512x512.png
 ├── css/                 # Estilos CSS
