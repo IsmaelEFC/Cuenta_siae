@@ -5,7 +5,6 @@
   { "nombre": "Sgto. 1° Gajardo", "id": 3 },
   { "nombre": "Sgto. 1° González", "id": 4 },
   { "nombre": "Sgto. 1° Ramos", "id": 5 },
-  { "nombre": "Sgto. 2° Flores", "id": 6 },
   { "nombre": "Sgto. 2° Sepúlveda", "id": 7 },
   { "nombre": "Sgto. 2° García", "id": 8 },
   { "nombre": "Sgto. 2° Aravena", "id": 9 },
@@ -17,7 +16,6 @@
   { "nombre": "Cabo 1° Sanhueza", "id": 15 },
   { "nombre": "Cabo 1° Rodriguez", "id": 16 },
   { "nombre": "Cabo 1° Peña", "id": 17 },
-  { "nombre": "Cabo 2° Celis", "id": 18 },
   { "nombre": "Cabo 2° Marín", "id": 19 }  
 ]
 
