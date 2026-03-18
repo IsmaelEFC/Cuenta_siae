@@ -15,8 +15,11 @@
   { "nombre": "Cabo 1° Riquelme", "id": 14 },
   { "nombre": "Cabo 1° Sanhueza", "id": 15 },
   { "nombre": "Cabo 1° Rodriguez", "id": 16 },
-  { "nombre": "Cabo 1° Peña", "id": 17 },
-  { "nombre": "Cabo 2° Marín", "id": 19 }  
+  { "nombre": "Cabo 1° Baeza", "id": 17 },
+  { "nombre": "Cabo 1° Peña", "id": 18 },
+  { "nombre": "Cabo 2° Quezada", "id": 19 },
+  { "nombre": "Cabo 2° Oñate", "id": 20 },
+  { "nombre": "Cabo 2° Marín", "id": 21 }  
 ]
 
 
