@@ -3,7 +3,7 @@ import { guardarEstado, cargarEstadoGuardado, limpiarEstado } from './storage.js
 
 // Constantes
 const LISTA_MOTIVOS = [
-    "Feriado", "Día administrativo", "Licencia Médica", 
+    "Agregado", "Feriado", "Día administrativo", "Licencia Médica", 
     "Primer patrullaje", "Segundo patrullaje", "Primera guardia", "Segunda guardia", 
     "Saliente servicio nocturno", "Permiso Especial Digcar", "Allanamiento", "Vigilancia", "Práctica de tiro", 
     "Monitoreo", "Capacitación", "Otro"
